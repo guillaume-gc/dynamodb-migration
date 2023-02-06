@@ -4,7 +4,7 @@ import { Database } from './database'
 const main = async () => {
   const args = getArguments()
 
-  const { from, to,  region } = args
+  const { from, to, region } = args
 
   const database = new Database(region)
 
@@ -16,4 +16,3 @@ const main = async () => {
 main().then(() => {
   console.log('Completed')
 })
-

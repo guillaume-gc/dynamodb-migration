@@ -1,4 +1,7 @@
-export const splitArrayIntoChunks = <T extends any[]>(inputArray: T, chunkSize: number): T[] => {
+export const splitArrayIntoChunks = <T extends any[]>(
+  inputArray: T,
+  chunkSize: number,
+): T[] => {
   if (chunkSize < 1) {
     return []
   }

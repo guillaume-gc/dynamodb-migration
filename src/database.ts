@@ -56,17 +56,16 @@ export class Database {
   async writeItemsToTable(tableName: string, items: DatabaseItems) {
     const itemChunks = splitArrayIntoChunks<DatabaseItems>(items, 25)
 
-    console.log(`${items.length} items divided into ${itemChunks.length} chunks`)
+    console.log(
+      `${items.length} items divided into ${itemChunks.length} chunks`,
+    )
 
     for (const chunk of itemChunks) {
       await this.writeChunkToTable(tableName, chunk)
     }
   }
 
-  private async writeChunkToTable(
-    tableName: string,
-    chunk: DatabaseItems,
-  ) {
+  private async writeChunkToTable(tableName: string, chunk: DatabaseItems) {
     const input: BatchWriteCommandInput = {
       RequestItems: {
         [tableName]: chunk.map((item) => ({
@@ -81,6 +80,8 @@ export class Database {
 
     await this.documentClient.send(command)
 
-    console.log(`Successfully wrote ${chunk.length} items to ${tableName} database`)
+    console.log(
+      `Successfully wrote ${chunk.length} items to ${tableName} database`,
+    )
   }
 }
