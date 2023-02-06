@@ -1,0 +1,22 @@
+{
+  "name": "dynamodb-migration",
+  "version": "1.0.0",
+  "scripts": {
+    "tsc:watch": "npx tsc --watch",
+    "tsc:build": "npx tsc --build",
+    "node:start": "node ./dist/main.js",
+    "prettier:write": "npx prettier -w .",
+    "prettier:check": "npx prettier --check ."
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.0.0",
+    "@types/node": "^18.11.18",
+    "prettier": "^2.8.3",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.264.0",
+    "@aws-sdk/lib-dynamodb": "^3.264.0",
+    "commander": "^10.0.0"
+  }
+}
