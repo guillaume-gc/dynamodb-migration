@@ -1,5 +1,5 @@
 interface Arguments {
-  from: string
-  to: string
+  fromTable: string
+  toTable: string
   region: string
 }

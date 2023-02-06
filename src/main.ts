@@ -4,13 +4,15 @@ import { Database } from './database'
 const main = async () => {
   const args = getArguments()
 
-  const { from, to, region } = args
+  const { fromTable, toTable, region } = args
+
+  console.log('Arguments: ', args)
 
   const database = new Database(region)
 
-  const items = await database.scanTable(from)
+  const items = await database.scanTable(fromTable)
 
-  await database.writeItemsToTable(to, items)
+  await database.writeItemsToTable(toTable, items)
 }
 
 main().then(() => {
