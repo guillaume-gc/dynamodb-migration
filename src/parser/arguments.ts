@@ -1,5 +1,7 @@
 import { Command } from 'commander'
 
+import { Arguments } from '../type/operation'
+
 export const getArguments = () => {
   const program = new Command()
 
@@ -12,6 +14,11 @@ export const getArguments = () => {
   program.option('-f , --from-table <fromTableName>', 'Origin table name')
 
   program.option('-t , --to-table <fromTableName>', 'Destination table name')
+
+  program.option(
+    '--conditional-updates [conditionalUpdates]',
+    'Object describing conditional updates',
+  )
 
   program.option('-r, --region <region>', 'AWS Region')
 

@@ -6,7 +6,7 @@ import {
   ScanCommand,
 } from '@aws-sdk/lib-dynamodb'
 
-import { splitArrayIntoChunks } from './util'
+import { splitArrayIntoChunks } from '../util'
 
 type DatabaseItems = Record<string, any>[]
 

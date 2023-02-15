@@ -1,18 +1,33 @@
-import { getArguments } from './arguments'
-import { Database } from './database'
+import { Database } from './helper/database'
+import { runConditionalUpdates } from './operation/conditionalUpdater'
+import { getArguments } from './parser/arguments'
 
 const main = async () => {
-  const args = getArguments()
+  try {
+    const args = getArguments()
 
-  const { fromTable, toTable, region } = args
+    const { fromTable, toTable, region, conditionalUpdates } = args
 
-  console.log('Arguments: ', args)
+    console.log('Arguments: ', args)
 
-  const database = new Database(region)
+    const database = new Database(region)
 
-  const items = await database.scanTable(fromTable)
+    const fromTableItems = await database.scanTable(fromTable)
 
-  await database.writeItemsToTable(toTable, items)
+    const itemsToWrite =
+      conditionalUpdates != undefined
+        ? runConditionalUpdates(fromTableItems, conditionalUpdates)
+        : fromTableItems
+
+    await database.writeItemsToTable(toTable, itemsToWrite)
+
+    process.exit(0)
+  } catch (error) {
+    console.error('An error occurred')
+    console.error(error)
+
+    process.exit(1)
+  }
 }
 
 main().then(() => {

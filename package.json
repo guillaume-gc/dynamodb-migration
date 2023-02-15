@@ -2,21 +2,32 @@
   "name": "dynamodb-migration",
   "version": "1.0.0",
   "scripts": {
-    "tsc:watch": "npx tsc --watch",
-    "tsc:build": "npx tsc --build",
-    "node:start": "node ./dist/main.js",
+    "tsc:watch": "npx tsc --watch -p src",
+    "tsc:build": "npx tsc --build src",
+    "node:start": "node ./dist/main.js ${@:1}",
     "prettier:write": "npx prettier -w .",
-    "prettier:check": "npx prettier --check ."
+    "prettier:check": "npx prettier --check .",
+    "eslint:check": "npx eslint . --ext .ts",
+    "test:run": "npx jest --detectOpenHandles --runInBand"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
+    "@types/jest": "^29.4.0",
     "@types/node": "^18.11.18",
+    "@typescript-eslint/eslint-plugin": "^5.52.0",
+    "eslint": "^8.34.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^29.4.3",
     "prettier": "^2.8.3",
+    "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.264.0",
     "@aws-sdk/lib-dynamodb": "^3.264.0",
-    "commander": "^10.0.0"
+    "commander": "^10.0.0",
+    "joi": "^17.7.1"
   }
 }
