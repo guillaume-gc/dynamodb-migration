@@ -9,9 +9,9 @@ type TransformationOperators = Record<
 >
 
 const conditionOperators: ConditionOperators = {
-  is_null: (item) => item === null,
-  is_non_empty_string: (item) => item !== '' && typeof item === 'string',
-  is_empty_string: (item) => item === '',
+  is_null: (value) => value === null,
+  is_non_empty_string: (value) => value !== '' && typeof value === 'string',
+  is_empty_string: (value) => value === '',
 }
 
 const transformationOperators: TransformationOperators = {
@@ -62,7 +62,7 @@ export const runConditionalUpdates = (
       }
 
       console.log(
-        `Item ${attributeName} respects condition, apply transformation`,
+        `Item "${attributeName}" respects condition, apply transformation`,
         {
           item: JSON.stringify(item),
           transformation: JSON.stringify(transformation),
@@ -80,15 +80,15 @@ export const runConditionalUpdates = (
   })
 }
 
-const isConditionRespected = (item: any, type?: ConditionType) => {
+const isConditionRespected = (value: any, type?: ConditionType) => {
   if (type == undefined) {
     console.log('No condition set, nothing to check')
     return true
   }
 
-  console.log(`Condition type is ${type}`)
+  console.log(`Condition type is "${type}" and value to check is "${value}"`)
 
-  return conditionOperators[type](item)
+  return conditionOperators[type](value)
 }
 
 const applyTransformation = (item: any, value: any, type: TransformationType) =>
