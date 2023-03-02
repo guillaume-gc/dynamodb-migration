@@ -13,7 +13,7 @@ export const transformationTypes = [
 export type ConditionType = (typeof conditionTypes)[number]
 export type TransformationType = (typeof transformationTypes)[number]
 
-export interface FilterMap {
+export interface Transform {
   attributeName: string
   condition?: {
     type: ConditionType
@@ -25,6 +25,23 @@ export interface FilterMap {
   }
 }
 
-export interface ConditionalUpdateConfig {
-  config: FilterMap[]
+export interface Filter {
+  attributeName: string
+  condition?: {
+    type: ConditionType
+    rightOperator?: any
+  }
+}
+
+export interface Ftl {
+  transforms?: Transform[]
+  filters?: Filter[]
+}
+
+export interface FilterLogic {
+  filters?: Filter[]
+}
+
+export interface TransformLogic {
+  transforms?: Transform[]
 }

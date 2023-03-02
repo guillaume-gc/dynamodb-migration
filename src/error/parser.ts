@@ -1,6 +1,6 @@
 import { ValidationError } from 'joi'
 
-export class InvalidConditionalUpdates extends Error {
+export class InvalidFtl extends Error {
   private validationError: ValidationError
 
   constructor(validationError: ValidationError) {

@@ -38,7 +38,7 @@ export class Database {
     })
   }
 
-  async scanTable(tableName: string) {
+  async scanTable(tableName: string, delay?: number) {
     const allItems: Record<string, any>[] = []
     let lastEvaluatedKey: Record<string, any> | undefined = undefined
 
@@ -62,6 +62,10 @@ export class Database {
       console.log(
         `Found ${iterationItems.length} items in ${tableName} database`,
       )
+
+      if (delay) {
+        await new Promise((resolve) => setTimeout(resolve, delay))
+      }
     } while (lastEvaluatedKey != undefined)
 
     console.log(`Found all ${allItems.length} items in ${tableName} database`)
@@ -69,7 +73,11 @@ export class Database {
     return allItems
   }
 
-  async writeItemsToTable(tableName: string, items: DatabaseItems) {
+  async writeItemsToTable(
+    tableName: string,
+    items: DatabaseItems,
+    delay?: number,
+  ) {
     const itemChunks = splitArrayIntoChunks<DatabaseItems>(items, 25)
 
     console.log(
@@ -78,6 +86,10 @@ export class Database {
 
     for (const chunk of itemChunks) {
       await this.writeChunkToTable(tableName, chunk)
+
+      if (delay) {
+        await new Promise((resolve) => setTimeout(resolve, delay))
+      }
     }
 
     console.log('All items written to table')
