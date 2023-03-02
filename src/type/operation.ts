@@ -2,6 +2,7 @@ export const conditionTypes = [
   'is_null',
   'is_non_empty_string',
   'is_empty_string',
+  'is_greater_than',
 ] as const
 export const transformationTypes = [
   'to_number',
@@ -12,22 +13,18 @@ export const transformationTypes = [
 export type ConditionType = (typeof conditionTypes)[number]
 export type TransformationType = (typeof transformationTypes)[number]
 
-export interface ConditionalUpdate {
+export interface FilterMap {
   attributeName: string
-  condition?: ConditionType
-  transformation: {
+  condition?: {
+    type: ConditionType
+    rightOperator: any
+  }
+  transformation?: {
     type: TransformationType
     value: any
   }
 }
 
 export interface ConditionalUpdateConfig {
-  config: ConditionalUpdate[]
-}
-
-export interface Arguments {
-  fromTable: string
-  toTable: string
-  region: string
-  conditionalUpdates?: string
+  config: FilterMap[]
 }

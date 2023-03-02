@@ -1,6 +1,6 @@
-import { runConditionalUpdates } from '../../src/operation/conditionalUpdater'
+import { applyFilterMap } from '../../src/operation/filterMap'
 
-describe('Condition Update Variable picker', () => {
+describe('Transform operation runner', () => {
   it('should run conditional update when attribute exists', () => {
     // Given
     const items = [
@@ -22,7 +22,7 @@ describe('Condition Update Variable picker', () => {
     })
 
     // When
-    const newItems = runConditionalUpdates(items, conditionUpdatesDesc)
+    const newItems = applyFilterMap(items, conditionUpdatesDesc)
 
     // Then
     expect(newItems).toStrictEqual([
@@ -53,7 +53,7 @@ describe('Condition Update Variable picker', () => {
     })
 
     // When
-    const newItems = runConditionalUpdates(items, conditionUpdatesDesc)
+    const newItems = applyFilterMap(items, conditionUpdatesDesc)
 
     // Then
     expect(newItems).toStrictEqual([
@@ -87,7 +87,7 @@ describe('Is Condition Respected checker', () => {
     })
 
     // When
-    const newItems = runConditionalUpdates(items, conditionUpdatesDesc)
+    const newItems = applyFilterMap(items, conditionUpdatesDesc)
 
     // Then
     expect(newItems).toStrictEqual([
@@ -119,7 +119,7 @@ describe('Is Condition Respected checker', () => {
     })
 
     // When
-    const newItems = runConditionalUpdates(items, conditionUpdatesDesc)
+    const newItems = applyFilterMap(items, conditionUpdatesDesc)
 
     // Then
     expect(newItems).toStrictEqual([
@@ -150,7 +150,7 @@ describe('Is Condition Respected checker', () => {
     })
 
     // When
-    const newItems = runConditionalUpdates(items, conditionUpdatesDesc)
+    const newItems = applyFilterMap(items, conditionUpdatesDesc)
 
     // Then
     expect(newItems).toStrictEqual([
@@ -182,7 +182,7 @@ describe('Is Condition Respected checker', () => {
     })
 
     // When
-    const newItems = runConditionalUpdates(items, conditionUpdatesDesc)
+    const newItems = applyFilterMap(items, conditionUpdatesDesc)
 
     // Then
     expect(newItems).toStrictEqual([
@@ -214,7 +214,7 @@ describe('Is Condition Respected checker', () => {
     })
 
     // When
-    const newItems = runConditionalUpdates(items, conditionUpdatesDesc)
+    const newItems = applyFilterMap(items, conditionUpdatesDesc)
 
     // Then
     expect(newItems).toStrictEqual([
@@ -246,7 +246,7 @@ describe('Is Condition Respected checker', () => {
     })
 
     // When
-    const newItems = runConditionalUpdates(items, conditionUpdatesDesc)
+    const newItems = applyFilterMap(items, conditionUpdatesDesc)
 
     // Then
     expect(newItems).toStrictEqual([
@@ -278,7 +278,7 @@ describe('Is Condition Respected checker', () => {
     })
 
     // When
-    const newItems = runConditionalUpdates(items, conditionUpdatesDesc)
+    const newItems = applyFilterMap(items, conditionUpdatesDesc)
 
     // Then
     expect(newItems).toStrictEqual([
@@ -310,7 +310,7 @@ describe('Is Condition Respected checker', () => {
     })
 
     // When
-    const newItems = runConditionalUpdates(items, conditionUpdatesDesc)
+    const newItems = applyFilterMap(items, conditionUpdatesDesc)
 
     // Then
     expect(newItems).toStrictEqual([
@@ -342,7 +342,7 @@ describe('Transformation Engine', () => {
     })
 
     // When
-    const newItems = runConditionalUpdates(items, conditionUpdatesDesc)
+    const newItems = applyFilterMap(items, conditionUpdatesDesc)
 
     // Then
     expect(newItems).toStrictEqual([
@@ -373,7 +373,7 @@ describe('Transformation Engine', () => {
     })
 
     // When
-    const newItems = runConditionalUpdates(items, conditionUpdatesDesc)
+    const newItems = applyFilterMap(items, conditionUpdatesDesc)
 
     // Then
     expect(newItems).toStrictEqual([
@@ -403,7 +403,7 @@ describe('Transformation Engine', () => {
     })
 
     // When
-    const newItems = runConditionalUpdates(items, conditionUpdatesDesc)
+    const newItems = applyFilterMap(items, conditionUpdatesDesc)
 
     // Then
     expect(newItems).toStrictEqual([

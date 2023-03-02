@@ -1,28 +1,29 @@
 import { Command } from 'commander'
 
-import { Arguments } from '../type/operation'
+import { runCopyService } from '../service/copy'
 
-export const getArguments = () => {
+export const applyCommand = () => {
   const program = new Command()
+    .name('dynamodb-migration')
+    .description('Tool to make operations on DynamoDB databases')
+
+  program.allowUnknownOption().action(() => {
+    console.error('Unknown command')
+
+    process.exit(1)
+  })
 
   program
-    .name('dynamodb-migration')
-    .description(
-      'Tool to copy small DynamoDB database data to another DynamoDB database',
+    .command('copy')
+    .description('Copy data from one database to another')
+    .requiredOption('-f , --from-table <fromTableName>', 'Origin table name')
+    .requiredOption('-t , --to-table <fromTableName>', 'Destination table name')
+    .option(
+      '--transform [transformObject]',
+      'Transformations configuration object',
     )
-
-  program.option('-f , --from-table <fromTableName>', 'Origin table name')
-
-  program.option('-t , --to-table <fromTableName>', 'Destination table name')
-
-  program.option(
-    '--conditional-updates [conditionalUpdates]',
-    'Object describing conditional updates',
-  )
-
-  program.option('-r, --region <region>', 'AWS Region')
+    .requiredOption('-r, --region <region>', 'AWS Region')
+    .action(runCopyService)
 
   program.parse()
-
-  return program.opts<Arguments>()
 }
