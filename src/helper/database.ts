@@ -1,9 +1,10 @@
-import { DynamoDBClient, ScanCommandInput } from '@aws-sdk/client-dynamodb'
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import {
   BatchWriteCommand,
   BatchWriteCommandInput,
   DynamoDBDocumentClient,
   ScanCommand,
+  ScanCommandInput,
 } from '@aws-sdk/lib-dynamodb'
 
 import { splitArrayIntoChunks } from '../util'
@@ -38,19 +39,34 @@ export class Database {
   }
 
   async scanTable(tableName: string) {
-    const input: ScanCommandInput = {
-      TableName: tableName,
-    }
+    const allItems: Record<string, any>[] = []
+    let lastEvaluatedKey: Record<string, any> | undefined = undefined
 
-    const command = new ScanCommand(input)
+    console.log(`Scanning table ${tableName}`)
 
-    const output = await this.documentClient.send(command)
+    do {
+      const input: ScanCommandInput = {
+        TableName: tableName,
+        Limit: 100,
+        ExclusiveStartKey: lastEvaluatedKey,
+      }
 
-    const items = output.Items || []
+      const command = new ScanCommand(input)
+      const output = await this.documentClient.send(command)
+      const iterationItems = output.Items || []
 
-    console.log(`Found ${items.length} items in ${tableName} database`)
+      lastEvaluatedKey = output.LastEvaluatedKey
 
-    return items
+      allItems.push(...iterationItems)
+
+      console.log(
+        `Found ${iterationItems.length} items in ${tableName} database`,
+      )
+    } while (lastEvaluatedKey != undefined)
+
+    console.log(`Found all ${allItems.length} items in ${tableName} database`)
+
+    return allItems
   }
 
   async writeItemsToTable(tableName: string, items: DatabaseItems) {
@@ -63,6 +79,8 @@ export class Database {
     for (const chunk of itemChunks) {
       await this.writeChunkToTable(tableName, chunk)
     }
+
+    console.log('All items written to table')
   }
 
   private async writeChunkToTable(tableName: string, chunk: DatabaseItems) {
