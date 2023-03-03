@@ -2,7 +2,7 @@ import { DatabaseHelper } from '../helper/database.helper'
 import { validateFtl } from '../parser/validator/command.validation'
 import { validateCopyOptions } from '../parser/validator/option.validation'
 import { applyFilterTransformLogic } from '../service/ftl.service'
-import { continueOrQuit } from '../service/prompt.service'
+import { continueOrQuit } from '../helper/prompt.helper'
 
 export const runCopyService = async (options: any) => {
   try {

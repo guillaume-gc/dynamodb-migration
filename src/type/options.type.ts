@@ -7,7 +7,7 @@ export interface CopyOptions {
 }
 
 export interface PurgeOptions {
-  targetTable: string
+  fromTable: string
   pk: string
   region: string
   filter?: string
@@ -16,7 +16,7 @@ export interface PurgeOptions {
 }
 
 export interface CountOptions {
-  targetTable: string
+  fromTable: string
   region: string
   filter?: string
   delay?: number

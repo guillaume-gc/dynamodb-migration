@@ -8,7 +8,7 @@ export const runCountService = async (options: any) => {
     console.log('Count arguments: ', options)
 
     const {
-      targetTable,
+      fromTable,
       region,
       filter: filterLogic,
       delay,
@@ -18,7 +18,7 @@ export const runCountService = async (options: any) => {
 
     const database = new DatabaseHelper(region)
 
-    const fromTableItems = await database.scan(targetTable, delay)
+    const fromTableItems = await database.scan(fromTable, delay)
 
     const itemsToCount = applyFilterLogic(fromTableItems, filters)
 

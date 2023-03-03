@@ -9,7 +9,7 @@ import {
 
 import { splitArrayIntoChunks } from '../util/array.util'
 
-type DatabaseItems = Record<string, any>[]
+export type DatabaseItems = Record<string, any>[]
 
 export class DatabaseHelper {
   private documentClient

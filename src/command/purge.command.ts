@@ -2,18 +2,18 @@ import { DatabaseHelper } from '../helper/database.helper'
 import { validateFilterLogic } from '../parser/validator/command.validation'
 import { validatePurgeOptions } from '../parser/validator/option.validation'
 import { applyFilterLogic } from '../service/ftl.service'
-import { continueOrQuit } from '../service/prompt.service'
+import { continueOrQuit } from '../helper/prompt.helper'
 
 export const runPurgeService = async (options: any) => {
   try {
     console.log('Purge arguments: ', options)
 
     const {
-      targetTable,
-      pk: targetPartitionKey,
+      fromTable,
+      pk,
       region,
       filter: filterLogic,
-      sk: targetSortKey,
+      sk,
       delay,
     } = validatePurgeOptions(options)
 
@@ -21,7 +21,7 @@ export const runPurgeService = async (options: any) => {
 
     const database = new DatabaseHelper(region)
 
-    const fromTableItems = await database.scan(targetTable, delay)
+    const fromTableItems = await database.scan(fromTable, delay)
 
     const itemsToDelete = applyFilterLogic(fromTableItems, filters)
 
@@ -30,10 +30,10 @@ export const runPurgeService = async (options: any) => {
     )
 
     await database.delete(
-      targetTable,
+      fromTable,
       itemsToDelete,
-      targetPartitionKey,
-      targetSortKey,
+      pk,
+      sk,
       delay,
     )
 

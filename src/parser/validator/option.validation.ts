@@ -27,7 +27,7 @@ export const validateCopyOptions = (copyOptions: any) => {
 
 export const validatePurgeOptions = (purgeOptions: any) => {
   const joiRule = Joi.object({
-    targetTable: Joi.string().required(),
+    fromTable: Joi.string().required(),
     region: Joi.string().required(),
     pk: Joi.string().required(),
     filter: Joi.string().optional(),
@@ -46,7 +46,7 @@ export const validatePurgeOptions = (purgeOptions: any) => {
 
 export const validationCountOptions = (countOptions: any) => {
   const joiRule = Joi.object({
-    targetTable: Joi.string().required(),
+    fromTable: Joi.string().required(),
     region: Joi.string().required(),
     filter: Joi.string().optional(),
     delay: Joi.number().optional(),

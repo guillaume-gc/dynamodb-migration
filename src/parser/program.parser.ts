@@ -31,7 +31,7 @@ export const applyCommand = () => {
   program
     .command('count')
     .description('Count data in a database')
-    .requiredOption('-t , --target-table <targetTable>', 'Origin table name')
+    .requiredOption('-f , --from-table <fromTable>', 'Origin table name')
     .requiredOption('-r, --region <region>', 'AWS Region')
     .option('--filter [filter]', 'Filter Transform Logic')
     .option(
@@ -43,7 +43,7 @@ export const applyCommand = () => {
   program
     .command('purge')
     .description('Purge data in a database')
-    .requiredOption('-t , --target-table <targetTable>', 'Origin table name')
+    .requiredOption('-f , --from-table <fromTable>', 'Origin table name')
     .requiredOption('-r, --region <region>', 'AWS Region')
     .requiredOption('--pk [pk]', 'Partition key used to delete items')
     .option('--filter [filter]', 'Filter Transform Logic')
@@ -53,6 +53,11 @@ export const applyCommand = () => {
       'Add a delay in milliseconds between two database operations to reduce throttle risks',
     )
     .action(runPurgeService)
+
+  program
+    .command('export')
+    .description('Export data in a database')
+
 
   program.parse()
 }
