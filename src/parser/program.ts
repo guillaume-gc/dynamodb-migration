@@ -20,7 +20,7 @@ export const applyCommand = () => {
     .requiredOption('-f , --from-table <fromTableName>', 'Origin table name')
     .requiredOption('-t , --to-table <fromTableName>', 'Destination table name')
     .requiredOption('-r, --region <region>', 'AWS Region')
-    .option('--ftl [ftlConfig]', 'Filter Transform Logic configuration')
+    .option('--ftl [ftl]', 'Filter Transform Logic')
     .option(
       '--delay [delay]',
       'Add a delay in milliseconds between two database operations to reduce throttle risks',
@@ -32,7 +32,7 @@ export const applyCommand = () => {
     .description('Copy data from one database to another')
     .requiredOption('-t , --target-table <targetTable>', 'Origin table name')
     .requiredOption('-r, --region <region>', 'AWS Region')
-    .option('--ftl [ftl]', 'Filter Transform Logic')
+    .option('--filter [filter]', 'Filter Transform Logic')
     .option(
       '--delay [delay]',
       'Add a delay in milliseconds between two database operations to reduce throttle risks',

@@ -1,46 +1,29 @@
 import { checkItem } from '../operation/checkItem'
 import { transformItem } from '../operation/transformItem'
-import {
-  validateFilterLogic,
-  validateFtl,
-  validateTransformLogic,
-} from '../parser/validator/commandValidation'
 import { Filter, Transform } from '../type/operation'
 
 export const applyFilterTransformLogic = (
   items: Record<string, any>[],
-  ftl: string,
+  filters?: Filter[],
+  transforms?: Transform[],
 ) => {
-  const ftlObject = JSON.parse(ftl)
+  const filteredItems =
+    filters != undefined ? applyFilter(items, filters) : items
 
-  const { transforms = [], filters = [] } = validateFtl(ftlObject)
-
-  const filteredItems = applyFilter(items, filters)
-
-  return applyTransform(filteredItems, transforms)
+  return transforms != undefined
+    ? applyTransform(filteredItems, transforms)
+    : filteredItems
 }
 
 export const applyFilterLogic = (
   items: Record<string, any>[],
-  filter: string,
-) => {
-  const filterObject = JSON.parse(filter)
-
-  const { filters = [] } = validateFilterLogic(filterObject)
-
-  return applyFilter(items, filters)
-}
+  filters?: Filter[],
+) => (filters != undefined ? applyFilter(items, filters) : items)
 
 export const applyTransformLogic = (
   items: Record<string, any>[],
-  filter: string,
-) => {
-  const transformObject = JSON.parse(filter)
-
-  const { transforms = [] } = validateTransformLogic(transformObject)
-
-  return applyTransform(items, transforms)
-}
+  transforms?: Transform[],
+) => (transforms != undefined ? applyTransform(items, transforms) : items)
 
 const applyFilter = (items: Record<string, any>[], filters: Filter[]) =>
   items.filter((item) =>
@@ -63,8 +46,8 @@ const applyFilter = (items: Record<string, any>[], filters: Filter[]) =>
 const applyTransform = (
   items: Record<string, any>[],
   transforms: Transform[],
-) => {
-  return items.map((item) => {
+) =>
+  items.map((item) => {
     for (const transform of transforms) {
       const targetedItemValue = item[transform.attributeName]
 
@@ -99,4 +82,3 @@ const applyTransform = (
 
     return item
   })
-}

@@ -1,6 +1,10 @@
 import Joi from 'joi'
 
-import { InvalidFtl } from '../../error/parser'
+import {
+  InvalidFilterLogic,
+  InvalidFtl,
+  InvalidTransformLogic,
+} from '../../error/parser'
 import {
   FilterLogic,
   Ftl,
@@ -61,7 +65,7 @@ export const validateFilterLogic = (filterLogic: any) => {
   const { error } = joiValidation
 
   if (error) {
-    throw new InvalidFtl(error)
+    throw new InvalidFilterLogic(error)
   }
 
   return filterLogic as FilterLogic
@@ -77,7 +81,7 @@ export const validateTransformLogic = (transformLogic: any) => {
   const { error } = joiValidation
 
   if (error) {
-    throw new InvalidFtl(error)
+    throw new InvalidTransformLogic(error)
   }
 
   return transformLogic as TransformLogic

@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-import { InvalidFtl } from '../../error/parser'
+import { InvalidCopyOption, InvalidCountOption } from '../../error/parser'
 import { CopyOptions, CountOptions } from '../../type/options'
 
 export const validateCopyOptions = (copyOptions: any) => {
@@ -17,7 +17,7 @@ export const validateCopyOptions = (copyOptions: any) => {
   const { error } = joiValidation
 
   if (error) {
-    throw new InvalidFtl(error)
+    throw new InvalidCopyOption(error)
   }
 
   return copyOptions as CopyOptions
@@ -36,7 +36,7 @@ export const validationCountOptions = (countOptions: any) => {
   const { error } = joiValidation
 
   if (error) {
-    throw new InvalidFtl(error)
+    throw new InvalidCountOption(error)
   }
 
   return countOptions as CountOptions

@@ -1,7 +1,7 @@
 import { ValidationError } from 'joi'
 
-export class InvalidFtl extends Error {
-  private validationError: ValidationError
+export abstract class JoiError extends Error {
+  protected validationError: ValidationError
 
   constructor(validationError: ValidationError) {
     const { details } = validationError
@@ -10,3 +10,13 @@ export class InvalidFtl extends Error {
     this.validationError = validationError
   }
 }
+
+export class InvalidFtl extends JoiError {}
+
+export class InvalidCountOption extends JoiError {}
+
+export class InvalidCopyOption extends JoiError {}
+
+export class InvalidFilterLogic extends JoiError {}
+
+export class InvalidTransformLogic extends JoiError {}

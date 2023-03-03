@@ -2,7 +2,7 @@ export interface CopyOptions {
   fromTable: string
   toTable: string
   region: string
-  ftlConfig?: string
+  ftl?: string
   delay?: number
 }
 

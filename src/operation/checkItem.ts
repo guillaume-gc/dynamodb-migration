@@ -18,7 +18,7 @@ export const checkItem = (
   type: ConditionType | undefined,
   leftOperator: any,
   rightOperator?: any,
-) => {
+): boolean => {
   if (type == undefined) {
     console.log('No condition set, nothing to check')
     return true
@@ -29,5 +29,9 @@ export const checkItem = (
     rightOperator,
   })
 
-  return conditionOperators[type](leftOperator, rightOperator)
+  const result = conditionOperators[type](leftOperator, rightOperator)
+
+  console.log(`Result is "${result}"`)
+
+  return result
 }
