@@ -1,4 +1,4 @@
-import { transformItem } from '../../src/operation/transformItem'
+import { transformItemOperation } from '../../src/operation/transformItem.operation'
 
 describe('Transform Item function', () => {
   it('should set a value to a new value when transformation type is "set_to"', () => {
@@ -8,7 +8,7 @@ describe('Transform Item function', () => {
     const newValue = '2'
 
     // When
-    const transformedItem = transformItem(
+    const transformedItem = transformItemOperation(
       transformationType,
       baseValue,
       newValue,
@@ -25,7 +25,7 @@ describe('Transform Item function', () => {
     const newValue = 1
 
     // When
-    const transformedItem = transformItem(
+    const transformedItem = transformItemOperation(
       transformationType,
       baseValue,
       newValue,
@@ -42,7 +42,7 @@ describe('Transform Item function', () => {
     const newValue = undefined
 
     // When
-    const transformedItem = transformItem(
+    const transformedItem = transformItemOperation(
       transformationType,
       baseValue,
       newValue,

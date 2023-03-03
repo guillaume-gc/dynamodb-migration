@@ -1,7 +1,7 @@
-import { Database } from '../helper/database'
-import { validateFtl } from '../parser/validator/commandValidation'
-import { validateCopyOptions } from '../parser/validator/optionValidation'
-import { applyFilterTransformLogic } from '../service/ftl'
+import { DatabaseHelper } from '../helper/database.helper'
+import { validateFtl } from '../parser/validator/command.validation'
+import { validateCopyOptions } from '../parser/validator/option.validation'
+import { applyFilterTransformLogic } from '../service/ftl.service'
 import { continueOrQuit } from '../service/prompt.service'
 
 export const runCopyService = async (options: any) => {
@@ -13,7 +13,7 @@ export const runCopyService = async (options: any) => {
 
     const { transforms, filters } = parseFtl(ftl)
 
-    const database = new Database(region)
+    const database = new DatabaseHelper(region)
 
     const fromTableItems = await database.scan(fromTable, delay)
 

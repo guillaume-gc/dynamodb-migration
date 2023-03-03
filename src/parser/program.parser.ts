@@ -1,8 +1,8 @@
 import { Command } from 'commander'
 
-import { runCopyService } from '../command/copy'
-import { runCountService } from '../command/count'
-import { runPurgeService } from '../command/purge'
+import { runCopyService } from '../command/copy.command'
+import { runCountService } from '../command/count.command'
+import { runPurgeService } from '../command/purge.command'
 
 export const applyCommand = () => {
   const program = new Command()

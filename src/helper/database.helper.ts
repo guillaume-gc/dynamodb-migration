@@ -11,7 +11,7 @@ import { splitArrayIntoChunks } from '../util/array.util'
 
 type DatabaseItems = Record<string, any>[]
 
-export class Database {
+export class DatabaseHelper {
   private documentClient
 
   constructor(region: string) {

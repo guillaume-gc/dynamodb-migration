@@ -1,10 +1,10 @@
-import { applyFilterLogic, applyTransformLogic } from '../../src/service/ftl'
+import { applyFilterLogic, applyTransformLogic } from '../../src/service/ftl.service'
 import {
   ConditionType,
   Filter,
   Transform,
   TransformationType,
-} from '../../src/type/operation'
+} from '../../src/type/operation.type'
 
 describe('FTL service transformation feature', () => {
   it('should apply transformation when no condition are being specified', () => {

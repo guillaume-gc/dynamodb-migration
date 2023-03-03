@@ -1,5 +1,5 @@
-import { TransformationError } from '../error/operation'
-import { TransformationType } from '../type/operation'
+import { TransformationError } from '../error/operation.error'
+import { TransformationType } from '../type/operation.type'
 
 type TransformOperations = Record<
   TransformationType,
@@ -20,7 +20,7 @@ const transformationOperations: TransformOperations = {
   set_undefined: () => undefined,
 }
 
-export const transformItem = (
+export const transformItemOperation = (
   type: TransformationType | undefined,
   baseValue: any,
   newValue?: any,

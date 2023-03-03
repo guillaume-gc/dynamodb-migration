@@ -1,6 +1,6 @@
-import { checkItem } from '../operation/checkItem'
-import { transformItem } from '../operation/transformItem'
-import { Filter, Transform } from '../type/operation'
+import { checkItemOperation } from '../operation/checkItem.operation'
+import { transformItemOperation } from '../operation/transformItem.operation'
+import { Filter, Transform } from '../type/operation.type'
 
 export const applyFilterTransformLogic = (
   items: Record<string, any>[],
@@ -36,7 +36,7 @@ const applyFilter = (items: Record<string, any>[], filters: Filter[]) =>
       }
 
       // Any element present in filter must be included
-      return checkItem(
+      return checkItemOperation(
         filter.condition?.type,
         item[filter.attributeName],
         filter.condition?.rightOperator,
@@ -60,7 +60,7 @@ const applyTransform = (
       }
 
       if (
-        !checkItem(
+        !checkItemOperation(
           transform.condition?.type,
           targetedItemValue,
           transform.condition?.rightOperator,
@@ -74,7 +74,7 @@ const applyTransform = (
 
       console.log(`Item "${transform.attributeName}" respects condition`)
 
-      item[transform.attributeName] = transformItem(
+      item[transform.attributeName] = transformItemOperation(
         transform.transformation?.type,
         targetedItemValue,
         transform.transformation?.value,

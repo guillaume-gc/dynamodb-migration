@@ -1,7 +1,7 @@
-import { Database } from '../helper/database'
-import { validateFilterLogic } from '../parser/validator/commandValidation'
-import { validatePurgeOptions } from '../parser/validator/optionValidation'
-import { applyFilterLogic } from '../service/ftl'
+import { DatabaseHelper } from '../helper/database.helper'
+import { validateFilterLogic } from '../parser/validator/command.validation'
+import { validatePurgeOptions } from '../parser/validator/option.validation'
+import { applyFilterLogic } from '../service/ftl.service'
 import { continueOrQuit } from '../service/prompt.service'
 
 export const runPurgeService = async (options: any) => {
@@ -19,7 +19,7 @@ export const runPurgeService = async (options: any) => {
 
     const { filters } = parseFilter(filterLogic)
 
-    const database = new Database(region)
+    const database = new DatabaseHelper(region)
 
     const fromTableItems = await database.scan(targetTable, delay)
 

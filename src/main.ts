@@ -1,3 +1,3 @@
-import { applyCommand } from './parser/program'
+import { applyCommand } from './parser/program.parser'
 
 applyCommand()

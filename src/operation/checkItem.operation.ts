@@ -1,4 +1,4 @@
-import { ConditionType } from '../type/operation'
+import { ConditionType } from '../type/operation.type'
 
 type ConditionOperators = Record<
   ConditionType,
@@ -14,7 +14,7 @@ const conditionOperators: ConditionOperators = {
     leftOperator > rightOperator,
 }
 
-export const checkItem = (
+export const checkItemOperation = (
   type: ConditionType | undefined,
   leftOperator: any,
   rightOperator?: any,

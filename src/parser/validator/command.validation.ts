@@ -4,14 +4,14 @@ import {
   InvalidFilterLogic,
   InvalidFtl,
   InvalidTransformLogic,
-} from '../../error/parser'
+} from '../../error/parser.error'
 import {
   FilterLogic,
   Ftl,
   TransformLogic,
   conditionTypes,
   transformationTypes,
-} from '../../type/operation'
+} from '../../type/operation.type'
 
 const conditionJoiRule = Joi.object({
   type: Joi.string()

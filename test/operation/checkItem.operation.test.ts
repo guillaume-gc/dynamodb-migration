@@ -1,4 +1,4 @@
-import { checkItem } from '../../src/operation/checkItem'
+import { checkItemOperation } from '../../src/operation/checkItem.operation'
 
 describe('Check Item function', () => {
   it('should return true when condition "is_null" is valid', () => {
@@ -7,7 +7,7 @@ describe('Check Item function', () => {
     const leftOperator = null
 
     // When
-    const checkResult = checkItem(conditionType, leftOperator)
+    const checkResult = checkItemOperation(conditionType, leftOperator)
 
     // Then
     expect(checkResult).toBeTruthy()
@@ -19,7 +19,7 @@ describe('Check Item function', () => {
     const leftOperator = 1
 
     // When
-    const checkResult = checkItem(conditionType, leftOperator)
+    const checkResult = checkItemOperation(conditionType, leftOperator)
 
     // Then
     expect(checkResult).toBeFalsy()
@@ -31,7 +31,7 @@ describe('Check Item function', () => {
     const leftOperator = '1'
 
     // When
-    const checkResult = checkItem(conditionType, leftOperator)
+    const checkResult = checkItemOperation(conditionType, leftOperator)
 
     // Then
     expect(checkResult).toBeTruthy()
@@ -43,7 +43,7 @@ describe('Check Item function', () => {
     const leftOperator = ''
 
     // When
-    const checkResult = checkItem(conditionType, leftOperator)
+    const checkResult = checkItemOperation(conditionType, leftOperator)
 
     // Then
     expect(checkResult).toBeFalsy()
@@ -55,7 +55,7 @@ describe('Check Item function', () => {
     const leftOperator = ''
 
     // When
-    const checkResult = checkItem(conditionType, leftOperator)
+    const checkResult = checkItemOperation(conditionType, leftOperator)
 
     // Then
     expect(checkResult).toBeTruthy()
@@ -67,7 +67,7 @@ describe('Check Item function', () => {
     const leftOperator = '1'
 
     // When
-    const checkResult = checkItem(conditionType, leftOperator)
+    const checkResult = checkItemOperation(conditionType, leftOperator)
 
     // Then
     expect(checkResult).toBeFalsy()
@@ -80,7 +80,7 @@ describe('Check Item function', () => {
     const rightOperator = 1
 
     // When
-    const checkResult = checkItem(conditionType, leftOperator, rightOperator)
+    const checkResult = checkItemOperation(conditionType, leftOperator, rightOperator)
 
     // Then
     expect(checkResult).toBeTruthy()
@@ -93,7 +93,7 @@ describe('Check Item function', () => {
     const rightOperator = 2
 
     // When
-    const checkResult = checkItem(conditionType, leftOperator, rightOperator)
+    const checkResult = checkItemOperation(conditionType, leftOperator, rightOperator)
 
     // Then
     expect(checkResult).toBeFalsy()
