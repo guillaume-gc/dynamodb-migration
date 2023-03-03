@@ -24,7 +24,7 @@ export const runCopyService = async (options: any) => {
     )
 
     await continueOrQuit(
-      `${itemsToCopy.length} items to copy, continue ? (Y/N) `,
+      `${itemsToCopy.length} items to copy from table "${fromTable}" to table "${toTable}", continue ? (Y/N) `,
     )
 
     await database.write(toTable, itemsToCopy, delay)

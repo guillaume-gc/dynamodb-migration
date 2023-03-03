@@ -26,7 +26,7 @@ export const runPurgeService = async (options: any) => {
     const itemsToDelete = applyFilterLogic(fromTableItems, filters)
 
     await continueOrQuit(
-      `${itemsToDelete.length} items to delete, continue ? (Y/N) `,
+      `${itemsToDelete.length} items to delete in table "${fromTable}", continue ? (Y/N) `,
     )
 
     await database.delete(
