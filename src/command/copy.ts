@@ -2,6 +2,7 @@ import { Database } from '../helper/database'
 import { validateFtl } from '../parser/validator/commandValidation'
 import { validateCopyOptions } from '../parser/validator/optionValidation'
 import { applyFilterTransformLogic } from '../service/ftl'
+import { continueOrQuit } from '../service/prompt.service'
 
 export const runCopyService = async (options: any) => {
   try {
@@ -14,15 +15,19 @@ export const runCopyService = async (options: any) => {
 
     const database = new Database(region)
 
-    const fromTableItems = await database.scanTable(fromTable, delay)
+    const fromTableItems = await database.scan(fromTable, delay)
 
-    const itemsToWrite = applyFilterTransformLogic(
+    const itemsToCopy = applyFilterTransformLogic(
       fromTableItems,
       filters,
       transforms,
     )
 
-    await database.writeItemsToTable(toTable, itemsToWrite, delay)
+    await continueOrQuit(
+      `${itemsToCopy.length} items to copy, continue ? (Y/N) `,
+    )
+
+    await database.write(toTable, itemsToCopy, delay)
 
     console.log('Operation completed')
 
@@ -35,4 +40,5 @@ export const runCopyService = async (options: any) => {
   }
 }
 
-const parseFtl = (ftl?: string) => (ftl != undefined ? validateFtl(JSON.parse(ftl)) : {})
+const parseFtl = (ftl?: string) =>
+  ftl != undefined ? validateFtl(JSON.parse(ftl)) : {}

@@ -7,7 +7,7 @@ import {
   ScanCommandInput,
 } from '@aws-sdk/lib-dynamodb'
 
-import { splitArrayIntoChunks } from '../util'
+import { splitArrayIntoChunks } from '../util/array.util'
 
 type DatabaseItems = Record<string, any>[]
 
@@ -38,7 +38,7 @@ export class Database {
     })
   }
 
-  async scanTable(tableName: string, delay?: number) {
+  async scan(tableName: string, delay?: number) {
     const allItems: Record<string, any>[] = []
     let lastEvaluatedKey: Record<string, any> | undefined = undefined
 
@@ -73,11 +73,7 @@ export class Database {
     return allItems
   }
 
-  async writeItemsToTable(
-    tableName: string,
-    items: DatabaseItems,
-    delay?: number,
-  ) {
+  async write(tableName: string, items: DatabaseItems, delay?: number) {
     const itemChunks = splitArrayIntoChunks<DatabaseItems>(items, 25)
 
     console.log(
@@ -85,7 +81,7 @@ export class Database {
     )
 
     for (const chunk of itemChunks) {
-      await this.writeChunkToTable(tableName, chunk)
+      await this.writeChunk(tableName, chunk)
 
       if (delay) {
         await new Promise((resolve) => setTimeout(resolve, delay))
@@ -95,10 +91,61 @@ export class Database {
     console.log('All items written to table')
   }
 
-  private async writeChunkToTable(tableName: string, chunk: DatabaseItems) {
+  async delete(
+    tableName: string,
+    items: DatabaseItems,
+    partitionKey: string,
+    sortKey?: string,
+    delay?: number,
+  ) {
+    const itemChunks = splitArrayIntoChunks<DatabaseItems>(items, 25)
+
+    console.log(
+      `${items.length} items divided into ${itemChunks.length} chunks`,
+    )
+
+    for (const chunk of itemChunks) {
+      await this.deleteChunk(tableName, chunk, partitionKey, sortKey)
+
+      if (delay) {
+        await new Promise((resolve) => setTimeout(resolve, delay))
+      }
+    }
+  }
+
+  private async deleteChunk(
+    tableName: string,
+    chunks: DatabaseItems,
+    partitionKey: string,
+    sortKey?: string,
+  ) {
     const input: BatchWriteCommandInput = {
       RequestItems: {
-        [tableName]: chunk.map((item) => ({
+        [tableName]: chunks.map((item) => ({
+          DeleteRequest: {
+            Key: {
+              [partitionKey]: item[partitionKey],
+              // Sort key is optional.
+              ...(sortKey && { [sortKey]: item[sortKey] }),
+            },
+          },
+        })),
+      },
+    }
+
+    const command = new BatchWriteCommand(input)
+
+    await this.documentClient.send(command)
+
+    console.log(
+      `Successfully deleted ${chunks.length} items in ${tableName} database`,
+    )
+  }
+
+  private async writeChunk(tableName: string, chunks: DatabaseItems) {
+    const input: BatchWriteCommandInput = {
+      RequestItems: {
+        [tableName]: chunks.map((item) => ({
           PutRequest: {
             Item: item,
           },
@@ -111,7 +158,7 @@ export class Database {
     await this.documentClient.send(command)
 
     console.log(
-      `Successfully wrote ${chunk.length} items to ${tableName} database`,
+      `Successfully wrote ${chunks.length} items to ${tableName} database`,
     )
   }
 }

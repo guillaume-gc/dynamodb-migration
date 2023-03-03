@@ -2,6 +2,7 @@ import { Command } from 'commander'
 
 import { runCopyService } from '../command/copy'
 import { runCountService } from '../command/count'
+import { runPurgeService } from '../command/purge'
 
 export const applyCommand = () => {
   const program = new Command()
@@ -29,7 +30,7 @@ export const applyCommand = () => {
 
   program
     .command('count')
-    .description('Copy data from one database to another')
+    .description('Count data in a database')
     .requiredOption('-t , --target-table <targetTable>', 'Origin table name')
     .requiredOption('-r, --region <region>', 'AWS Region')
     .option('--filter [filter]', 'Filter Transform Logic')
@@ -38,6 +39,20 @@ export const applyCommand = () => {
       'Add a delay in milliseconds between two database operations to reduce throttle risks',
     )
     .action(runCountService)
+
+  program
+    .command('purge')
+    .description('Purge data in a database')
+    .requiredOption('-t , --target-table <targetTable>', 'Origin table name')
+    .requiredOption('-r, --region <region>', 'AWS Region')
+    .requiredOption('--pk [pk]', 'Partition key used to delete items')
+    .option('--filter [filter]', 'Filter Transform Logic')
+    .option('--sk [pk]', 'Sort key used to delete items')
+    .option(
+      '--delay [delay]',
+      'Add a delay in milliseconds between two database operations to reduce throttle risks',
+    )
+    .action(runPurgeService)
 
   program.parse()
 }

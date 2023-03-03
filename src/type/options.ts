@@ -8,10 +8,11 @@ export interface CopyOptions {
 
 export interface PurgeOptions {
   targetTable: string
-  targetPartitionKey: string
+  pk: string
   region: string
   filter?: string
-  targetSortKey?: string
+  sk?: string
+  delay?: number
 }
 
 export interface CountOptions {

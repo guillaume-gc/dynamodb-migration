@@ -35,7 +35,8 @@ const applyFilter = (items: Record<string, any>[], filters: Filter[]) =>
         return true
       }
 
-      return !checkItem(
+      // Any element present in filter must be included
+      return checkItem(
         filter.condition?.type,
         item[filter.attributeName],
         filter.condition?.rightOperator,

@@ -17,6 +17,8 @@ export class InvalidCountOption extends JoiError {}
 
 export class InvalidCopyOption extends JoiError {}
 
+export class InvalidPurgeOption extends JoiError {}
+
 export class InvalidFilterLogic extends JoiError {}
 
 export class InvalidTransformLogic extends JoiError {}

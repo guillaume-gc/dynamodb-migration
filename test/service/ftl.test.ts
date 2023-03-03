@@ -38,7 +38,7 @@ describe('FTL service transformation feature', () => {
 })
 
 describe('FTL service filter feature', () => {
-  it('should not include element when it is meeting a filter condition', () => {
+  it('should include element when it is meeting a filter condition', () => {
     // Given
     const items = [
       {
@@ -59,10 +59,14 @@ describe('FTL service filter feature', () => {
     const newItems = applyFilterLogic(items, filterLogic)
 
     // Then
-    expect(newItems).toStrictEqual([])
+    expect(newItems).toStrictEqual([
+      {
+        value: '',
+      },
+    ])
   })
 
-  it('should include element when it is not meeting a filter condition', () => {
+  it('should not include element when it is not meeting a filter condition', () => {
     // Given
     const items = [
       {
@@ -83,10 +87,6 @@ describe('FTL service filter feature', () => {
     const newItems = applyFilterLogic(items, filterLogic)
 
     // Then
-    expect(newItems).toStrictEqual([
-      {
-        value: '1',
-      },
-    ])
+    expect(newItems).toStrictEqual([])
   })
 })
