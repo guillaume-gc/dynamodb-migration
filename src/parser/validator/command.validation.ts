@@ -24,7 +24,7 @@ const transformationJoiRule = Joi.object({
   type: Joi.string()
     .valid(...transformationTypes)
     .required(),
-  value: Joi.any().required(),
+  value: Joi.any().optional(),
 })
 
 const filterJoiRule = Joi.object({

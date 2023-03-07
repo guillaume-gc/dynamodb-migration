@@ -1,4 +1,4 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
+import { ConsumedCapacity, DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import {
   BatchWriteCommand,
   BatchWriteCommandInput,
@@ -6,10 +6,18 @@ import {
   ScanCommand,
   ScanCommandInput,
 } from '@aws-sdk/lib-dynamodb'
+import * as fs from 'fs'
 
 import { splitArrayIntoChunks } from '../util/array.util'
 
 export type DatabaseItems = Record<string, any>[]
+
+interface BatchResult {
+  input: BatchWriteCommandInput
+  consumedCapacity: ConsumedCapacity[]
+  unprocessedItems: Record<string, any>
+  message: string
+}
 
 export class DatabaseHelper {
   private documentClient
@@ -75,20 +83,24 @@ export class DatabaseHelper {
 
   async write(tableName: string, items: DatabaseItems, delay?: number) {
     const itemChunks = splitArrayIntoChunks<DatabaseItems>(items, 25)
+    const results: BatchResult[] = []
 
     console.log(
       `${items.length} items divided into ${itemChunks.length} chunks`,
     )
 
     for (const chunk of itemChunks) {
-      await this.writeChunk(tableName, chunk)
+      const result = await this.writeChunk(tableName, chunk)
+      results.push(result)
 
       if (delay) {
         await new Promise((resolve) => setTimeout(resolve, delay))
       }
     }
 
-    console.log('All items written to table')
+    console.log('Items written to table')
+
+    this.writeErrorReport(results)
   }
 
   async delete(
@@ -99,18 +111,27 @@ export class DatabaseHelper {
     delay?: number,
   ) {
     const itemChunks = splitArrayIntoChunks<DatabaseItems>(items, 25)
+    const results: BatchResult[] = []
 
     console.log(
       `${items.length} items divided into ${itemChunks.length} chunks`,
     )
 
     for (const chunk of itemChunks) {
-      await this.deleteChunk(tableName, chunk, partitionKey, sortKey)
+      const result = await this.deleteChunk(
+        tableName,
+        chunk,
+        partitionKey,
+        sortKey,
+      )
+      results.push(result)
 
       if (delay) {
         await new Promise((resolve) => setTimeout(resolve, delay))
       }
     }
+
+    this.writeErrorReport(results)
   }
 
   private async deleteChunk(
@@ -118,7 +139,7 @@ export class DatabaseHelper {
     chunks: DatabaseItems,
     partitionKey: string,
     sortKey?: string,
-  ) {
+  ): Promise<BatchResult> {
     const input: BatchWriteCommandInput = {
       RequestItems: {
         [tableName]: chunks.map((item) => ({
@@ -133,16 +154,38 @@ export class DatabaseHelper {
       },
     }
 
-    const command = new BatchWriteCommand(input)
+    try {
+      const command = new BatchWriteCommand(input)
 
-    await this.documentClient.send(command)
+      const { UnprocessedItems, ConsumedCapacity } =
+        await this.documentClient.send(command)
 
-    console.log(
-      `Successfully deleted ${chunks.length} items in ${tableName} database`,
-    )
+      console.log(
+        `Successfully deleted ${chunks.length} items in ${tableName} database`,
+      )
+
+      return {
+        input,
+        consumedCapacity: ConsumedCapacity || [],
+        unprocessedItems: UnprocessedItems || {},
+        message: 'success',
+      }
+    } catch (error) {
+      console.error(error)
+
+      return {
+        input,
+        consumedCapacity: [],
+        unprocessedItems: input.RequestItems || {},
+        message: (error as Error).toString(),
+      }
+    }
   }
 
-  private async writeChunk(tableName: string, chunks: DatabaseItems) {
+  private async writeChunk(
+    tableName: string,
+    chunks: DatabaseItems,
+  ): Promise<BatchResult> {
     const input: BatchWriteCommandInput = {
       RequestItems: {
         [tableName]: chunks.map((item) => ({
@@ -153,12 +196,39 @@ export class DatabaseHelper {
       },
     }
 
-    const command = new BatchWriteCommand(input)
+    try {
+      const command = new BatchWriteCommand(input)
 
-    await this.documentClient.send(command)
+      const { UnprocessedItems, ConsumedCapacity } =
+        await this.documentClient.send(command)
 
-    console.log(
-      `Successfully wrote ${chunks.length} items to ${tableName} database`,
+      console.log(
+        `Successfully wrote ${chunks.length} items to ${tableName} database`,
+      )
+
+      return {
+        input,
+        consumedCapacity: ConsumedCapacity || [],
+        unprocessedItems: UnprocessedItems || {},
+        message: 'success',
+      }
+    } catch (error) {
+      console.error(error)
+
+      return {
+        input,
+        consumedCapacity: [],
+        unprocessedItems: input.RequestItems || {},
+        message: (error as Error).toString(),
+      }
+    }
+  }
+
+  private writeErrorReport(batchResults: BatchResult[]) {
+    const errorReport = batchResults.filter(
+      ({ unprocessedItems }) => Object.keys(unprocessedItems).length > 0,
     )
+
+    fs.writeFileSync('./error-report.json', JSON.stringify(errorReport))
   }
 }

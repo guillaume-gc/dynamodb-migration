@@ -1,4 +1,7 @@
-import { applyFilterLogic, applyTransformLogic } from '../../src/service/ftl.service'
+import {
+  applyFilterLogic,
+  applyTransformLogic,
+} from '../../src/service/ftl.service'
 import {
   ConditionType,
   Filter,

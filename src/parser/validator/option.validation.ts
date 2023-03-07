@@ -5,7 +5,11 @@ import {
   InvalidCountOption,
   InvalidPurgeOption,
 } from '../../error/parser.error'
-import { CopyOptions, CountOptions, PurgeOptions } from '../../type/options.type'
+import {
+  CopyOptions,
+  CountOptions,
+  PurgeOptions,
+} from '../../type/options.type'
 
 export const validateCopyOptions = (copyOptions: any) => {
   const joiRule = Joi.object({

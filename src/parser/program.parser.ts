@@ -54,10 +54,7 @@ export const applyCommand = () => {
     )
     .action(runPurgeService)
 
-  program
-    .command('export')
-    .description('Export data in a database')
-
+  program.command('export').description('Export data in a database')
 
   program.parse()
 }

@@ -80,7 +80,11 @@ describe('Check Item function', () => {
     const rightOperator = 1
 
     // When
-    const checkResult = checkItemOperation(conditionType, leftOperator, rightOperator)
+    const checkResult = checkItemOperation(
+      conditionType,
+      leftOperator,
+      rightOperator,
+    )
 
     // Then
     expect(checkResult).toBeTruthy()
@@ -93,7 +97,11 @@ describe('Check Item function', () => {
     const rightOperator = 2
 
     // When
-    const checkResult = checkItemOperation(conditionType, leftOperator, rightOperator)
+    const checkResult = checkItemOperation(
+      conditionType,
+      leftOperator,
+      rightOperator,
+    )
 
     // Then
     expect(checkResult).toBeFalsy()
